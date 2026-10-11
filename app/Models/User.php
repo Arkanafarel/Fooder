@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
@@ -13,7 +14,7 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    protected $table = 'user';
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -21,7 +22,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'nama',
+        'name',
         'email',
         'password',
         'role',
@@ -49,18 +50,18 @@ class User extends Authenticatable
         ];
     }
 
-    public function toko(): HasMany
+    public function toko(): HasOne
     {
-        return $this->hasMany(Toko::class);
+        return $this->hasOne(Toko::class, 'user_id');
     }
 
     public function pesanan(): HasMany
     {
-        return $this->hasMany(Pesanan::class);
+        return $this->hasMany(Pesanan::class, 'user_id');
     }
 
     public function historiStok(): HasMany
     {
-        return $this->hasMany(HistoriStok::class);
+        return $this->hasMany(HistoriStok::class, 'user_id');
     }
 }
